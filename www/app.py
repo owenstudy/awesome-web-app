@@ -27,3 +27,6 @@ loop=asyncio.get_event_loop()
 loop.run_until_complete(init(loop))
 #循环启动，开始接收客户端响应
 loop.run_forever()
+
+#test
+__pool=
