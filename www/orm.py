@@ -22,7 +22,7 @@ async def create_pool(loop,**kw):
             port=kw.get('port',3306),#默认是3306端口
             user=kw['user'],
             password=kw['password'],
-            db=kw['db'],
+            db=kw['database'],
             charset=kw.get('charset','utf8'),
             autocommit=kw.get('autocommit',True),
             maxsize=kw.get('maxsize',10),
@@ -226,6 +226,7 @@ class Model(dict, metaclass=ModelMetaclass):
         args = list(map(self.getValueOrDefault, self.__fields__))
         args.append(self.getValueOrDefault(self.__primary_key__))
         rows = await execute(self.__insert__, args)
+        #logging.info('insertSQL:'+self.__insert__)
         if rows != 1:
             logging.warn('failed to insert record: affected rows: %s' % rows)
 
@@ -258,7 +259,7 @@ async def testMetaclass():
     userinfo=Model()
     data=userinfo.find(1)
     print(str(data.__class__))
-    await create_pool(None,user='user',password='password',db='db')
+    await create_pool(None,user='user',password='password',database='db')
     x=await select('select * from user', ())
     print(x)
 
